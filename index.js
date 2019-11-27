@@ -11,6 +11,17 @@ const express = require('express');
 
 const app = express();
 
+if(app.get('env') === 'development'){
+  app.use(morgan('tiny'));
+  startupDebugger('Morgan middleware logging request enabled as dev env');
+  // Configuration
+  console.log('Application Name: '+ config.get('name'));
+  console.log('Application Name: '+ config.get('mail.host'));
+  console.log('Mail Password: '+ config.get('mail.password'));
+  // Show NODE_ENV, it should be development if the if works
+  console.log(process.env.NODE_ENV);
+}
+
 // this enable to parse JSON from the client via the json middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended:true}));
@@ -20,15 +31,8 @@ app.use(logger);
 app.use(express.static('public'));
 app.use(helmet());
 
-// Configuration
-// console.log('Application Name: '+ config.get('name'));
-// console.log('Application Name: '+ config.get('mail.host'));
-// console.log('Mail Password: '+ config.get('mail.password'));
+console.log(process.env.NODE_ENV);
 
-if(app.get('env') === 'development'){
-  app.use(morgan('tiny'));
-  startupDebugger('Morgan middleware logging request enabled as dev env');
-}
 
 //should log once teh app start and the connection to db works
 dbDebugger('connected to database...')
