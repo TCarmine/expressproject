@@ -1,3 +1,5 @@
+const startupDebugger = require('debug')('app:startup');
+const dbDebugger = require('debug')('app:db');
 const config = require('config');
 // Validation package class
 const morgan = require('morgan');
@@ -6,7 +8,6 @@ const Joi = require('joi');
 
 const logger = require('./logger');
 const express = require('express'); 
-
 
 const app = express();
 
@@ -20,16 +21,17 @@ app.use(express.static('public'));
 app.use(helmet());
 
 // Configuration
-console.log('Application Name: '+ config.get('name'));
-console.log('Application Name: '+ config.get('mail.host'));
-console.log('Mail Password: '+ config.get('mail.password'));
+// console.log('Application Name: '+ config.get('name'));
+// console.log('Application Name: '+ config.get('mail.host'));
+// console.log('Mail Password: '+ config.get('mail.password'));
 
 if(app.get('env') === 'development'){
   app.use(morgan('tiny'));
-  console.log('Morgan middleware logging request enabled as dev env')
-};
+  startupDebugger('Morgan middleware logging request enabled as dev env');
+}
 
-
+//should log once teh app start and the connection to db works
+dbDebugger('connected to database...')
 
 
 
@@ -145,6 +147,7 @@ app.delete('/api/courses/:id',(req, res)=>{
 
 })
 // providing a way to use the available port
+
 const port = process.env.PORT  || 3000;
 
 app.listen(port, () => console.log(`Listen on port ${port}...`));
