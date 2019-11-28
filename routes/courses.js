@@ -13,12 +13,17 @@ function validateCourse(req,course){
   }
 // my courses array Object
 const courses = [
-    { id: 1, name: 'Math'},
+    { id: 1, name:'Math'},
     { id: 2, name:'History'},
     { id: 3, name:'Physic'},
     { id: 4, name:'Algebra'}
 ];
   
+router.get('/',(req,res)=>{
+    res.send(courses);
+  });
+
+
 router.get('/:id',(req,res)=>{
     const id = req.params.id;
     const course = courses.find( c => c.id === parseInt(id));

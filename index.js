@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const Joi = require('joi');
 const courses = require('./routes/courses');
 const home = require('./routes/home');
-const logger = require('./logger');
+const logger = require('./middleware/logger');
 const express = require('express'); 
 
 const app = express();
