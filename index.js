@@ -11,6 +11,9 @@ const express = require('express');
 
 const app = express();
 
+app.set('view engine', 'pug');// template enginee for "views" in the MVT, this are the T
+app.set('view','./views');// default
+
 if(app.get('env') === 'development'){
   app.use(morgan('tiny'));
   startupDebugger('Morgan middleware logging request enabled as dev env');
