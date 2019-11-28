@@ -12,7 +12,7 @@ const express = require('express');
 const app = express();
 
 app.set('view engine', 'pug');// template enginee for "views" in the MVT, this are the T
-app.set('view','./views');// default
+app.set('views','./views');// default
 
 if(app.get('env') === 'development'){
   app.use(morgan('tiny'));
@@ -62,7 +62,7 @@ function validateCourse(req,course){
 
 // get examples for Express
 app.get('/',(req,res)=>{
-  res.send('Hey There!');
+  res.render('index',{title:"The first Express App", message:"Hi there, this is a Pug message"});
 });
 
 app.get('/api/courses',(req,res)=>{
