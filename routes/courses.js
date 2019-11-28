@@ -1,42 +1,46 @@
 const express = require('express');
 
-// get examples for Express
-app.get('/',(req,res)=>{
-    res.render('index',{title:"The first Express App", message:"Hi there, this is a Pug message"});
-  });
+const router = express.Router();
+
+
+function validateCourse(req,course){
+    const schema = {
+      name: Joi.string().min(3).required()
+    }; 
+    const result =  Joi.validate(req.body, schema);
+    return result;
   
-  app.get('/api/courses',(req,res)=>{
-      res.send(courses);
-    });
+  }
+// my courses array Object
+const courses = [
+    { id: 1, name: 'Math'},
+    { id: 2, name:'History'},
+    { id: 3, name:'Physic'},
+    { id: 4, name:'Algebra'}
+];
   
-  app.get('/api/courses/:id',(req,res)=>{
+router.get('/:id',(req,res)=>{
     const id = req.params.id;
     const course = courses.find( c => c.id === parseInt(id));
     if (!course) return res.status(404).send(`The course with the given ID:${id}  was not found`);
     res.send(course);
   })  
   
-  app.get('/api/posts/:year/:month',(req,res)=>{
+router.get('/:year/:month',(req,res)=>{
     res.send(req.params);
   })  
   
-  app.get('/api/posts/',(req,res)=>{
-    res.send(req.query);
-  })  
-  
-  app.get('api/courses/',(req,res)=>{
+ // search sortBy method  
+router.get('/',(req,res)=>{
     
     const sortBy = req.query.sortBy;
     res.send(courses);  
-  })
+})
   
-  app.get('/api/posts/:id',(req,res)=>{
-    res.send(req.query);
-  })  
-  
+ 
   // POST request
   
-  app.post('/api/courses/', (req,res) => {
+router.post('/', (req,res) => {
     // Basic validation, implemented with joi
     // Handling 400 Bad request
     // object returned after validation
@@ -50,7 +54,7 @@ app.get('/',(req,res)=>{
     courses.push(course);
     res.send(course);
   
-  });
+});
   
   // Update a course with PUT method
   
@@ -59,7 +63,7 @@ app.get('/',(req,res)=>{
   // Validate the course and if is not in a good shape return 400
   // Update the course and return to client
   
-  app.put('/api/courses/:id',(req,res)=>{
+router.put('/:id',(req,res)=>{
     // check if a course with id exist
     const id = req.params.id;
     const course = courses.find( c => c.id === parseInt(id));
@@ -80,7 +84,7 @@ app.get('/',(req,res)=>{
   })  
   
   
-  app.delete('/api/courses/:id',(req, res)=>{
+ router.delete('/:id',(req, res)=>{
     // Look up the course
     // if does not exist rise 404
     // or 400 for Bad request
@@ -93,3 +97,5 @@ app.get('/',(req,res)=>{
     res.send(course);
   
   })
+
+  module.exports = router;

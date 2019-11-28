@@ -5,7 +5,8 @@ const config = require('config');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const Joi = require('joi');
-
+const courses = require('./routes/courses');
+const home = require('./routes/home');
 const logger = require('./logger');
 const express = require('express'); 
 
@@ -34,31 +35,19 @@ app.use(logger);
 app.use(express.static('public'));
 app.use(helmet());
 
+// routing
+
+app.use('/', home);
+app.use('api/courses', courses);
+
+
+
 console.log(process.env.NODE_ENV);
 
 
 //should log once teh app start and the connection to db works
 dbDebugger('connected to database...')
 
-
-
-// my courses array Object
-const courses = [
-  { id: 1, name: 'Math'},
-  { id: 2, name:'History'},
-  { id: 3, name:'Physic'},
-  { id: 4, name:'Algebra'}
-];
-
-
-function validateCourse(req,course){
-  const schema = {
-    name: Joi.string().min(3).required()
-  }; 
-  const result =  Joi.validate(req.body, schema);
-  return result;
-
-}
 
 // providing a way to use the available port
 
