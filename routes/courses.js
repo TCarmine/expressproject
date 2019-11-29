@@ -20,7 +20,9 @@ const courses = [
 ];
   
 router.get('/',(req,res)=>{
-    res.send(courses);
+    //res.send(courses);
+    res.json(courses);
+
   });
 
 
@@ -29,17 +31,20 @@ router.get('/:id',(req,res)=>{
     const course = courses.find( c => c.id === parseInt(id));
     if (!course) return res.status(404).send(`The course with the given ID:${id}  was not found`);
     res.send(course);
+
   })  
   
 router.get('/:year/:month',(req,res)=>{
     res.send(req.params);
+
   })  
   
  // search sortBy method  
 router.get('/',(req,res)=>{
     
     const sortBy = req.query.sortBy;
-    res.send(courses);  
+    res.send(courses);
+
 })
   
  
@@ -86,6 +91,7 @@ router.put('/:id',(req,res)=>{
     course.name = req.body.name;
     
     res.send(course);
+
   })  
   
   
@@ -100,6 +106,7 @@ router.put('/:id',(req,res)=>{
     const index= courses.indexOf(course);
     courses.splice(index,1);
     res.send(course);
+
   
   })
 

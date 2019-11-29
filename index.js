@@ -3,11 +3,11 @@ const dbDebugger = require('debug')('app:db');
 const config = require('config');
 // Validation package class
 const morgan = require('morgan');
-const helmet = require('helmet');
-const Joi = require('joi');
+
+
 const courses = require('./routes/courses');
 const home = require('./routes/home');
-const logger = require('./middleware/logger');
+
 const express = require('express'); 
 
 const app = express();
@@ -21,24 +21,17 @@ if(app.get('env') === 'development'){
   // Configuration
   console.log('Application Name: '+ config.get('name'));
   console.log('Application Name: '+ config.get('mail.host'));
-  console.log('Mail Password: '+ config.get('mail.password'));
+  //console.log('Mail Password: '+ config.get('mail.password'));
   // Show NODE_ENV, it should be development if the if works
   console.log(process.env.NODE_ENV);
 }
 
-// this enable to parse JSON from the client via the json middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended:true}));
-app.use(logger);
 
-//middleware for static files
-app.use(express.static('public'));
-app.use(helmet());
 
 // routing
 
 app.use('/', home);
-app.use('api/courses', courses);
+app.use('api/courses/', courses);
 
 
 
